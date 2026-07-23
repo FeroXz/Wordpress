@@ -42,6 +42,21 @@ jeweils ein Beitragsbild setzen (fehlt es, wird ein farbiger Platzhalter erzeugt
 Inhalte aus allen drei Bereichen. Hero-Überschrift und -Untertitel lassen sich
 unter **Design → Customizer → Startseite: Hero** anpassen.
 
+### Seitenvorlagen (bearbeitbare Seiten)
+Zwei Vorlagen kombinieren einen frei im Block-Editor bearbeitbaren
+Einleitungstext mit einem automatisch erzeugten, gestalteten Bereich:
+
+- **Galerie-Seite** (`page-galerie.php`): filterbares Masonry-Bildraster aller
+  Galerie-Einträge mit Album-Filter und Lightbox (Tastatur- und Wischnavigation).
+- **Wissens-Wiki** (`page-wissen-wiki.php`): Wiki-Layout mit fixierter
+  Themen-Seitenleiste, Suche und nach Themengebieten gegliederten Artikeln
+  (aktiver Abschnitt wird beim Scrollen hervorgehoben).
+
+**So anlegen:** **Seiten → Erstellen** → Titel und optional Einleitungstext
+eingeben → rechts unter **Seiteneigenschaften → Vorlage** „Galerie-Seite" bzw.
+„Wissens-Wiki" wählen → veröffentlichen. Die Seite kann anschließend als
+Menüpunkt oder als statische Startseite verwendet werden.
+
 ### Menü
 Unter **Design → Menüs** ein Menü an der Position „Hauptmenü“ zuweisen. Ohne
 zugewiesenes Menü verlinkt der Header automatisch auf Start und die drei Bereiche.
@@ -55,6 +70,8 @@ wissenswerk/
 ├── functions.php          Setup, Assets, Widgets, Menüs
 ├── header.php / footer.php Grundgerüst
 ├── front-page.php         Startseite mit allen drei Bereichen
+├── page-galerie.php       Vorlage: Galerie-Seite (Filter + Lightbox)
+├── page-wissen-wiki.php   Vorlage: Wissens-Wiki (Sidebar + Suche)
 ├── index.php              Fallback-Template
 ├── archive-{wissen,galerie,neuigkeiten}.php
 ├── single-{wissen,galerie,neuigkeiten}.php

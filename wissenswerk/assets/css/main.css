@@ -973,6 +973,332 @@ img {
 	.btn { justify-content: center; }
 }
 
+/* ============================================================
+   12. Seitenvorlagen: Galerie-Seite & Wissens-Wiki
+   ============================================================ */
+
+/* Gemeinsamer Seitenkopf */
+.page-hero {
+	text-align: center;
+	padding-block: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 4vw, 2.5rem);
+}
+.page-hero__eyebrow {
+	text-transform: uppercase;
+	letter-spacing: 0.2em;
+	font-size: 0.78rem;
+	font-weight: 600;
+	color: var(--color-primary);
+	margin-bottom: 0.5rem;
+}
+.page-hero__title { margin-bottom: 1rem; }
+.page-hero__intro { color: var(--color-muted); font-size: 1.1rem; text-align: left; }
+.page-hero__intro > *:last-child { margin-bottom: 0; }
+
+.notice-box {
+	text-align: center;
+	background: var(--color-surface-alt);
+	border: 1px dashed var(--color-border);
+	border-radius: var(--radius-lg);
+	padding: clamp(2rem, 5vw, 3rem);
+	color: var(--color-muted);
+	margin: 2rem auto;
+	max-width: 560px;
+}
+.notice-box .btn { margin-top: 1rem; }
+
+/* --- Galerie-Seite ------------------------------------------ */
+.gallery-filter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	justify-content: center;
+	margin-bottom: 2rem;
+}
+.gallery-filter .chip {
+	border: 1px solid var(--color-border);
+	background: var(--color-surface);
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 0.85rem;
+}
+.gallery-filter .chip--active {
+	background: var(--color-primary);
+	color: #fff;
+	border-color: var(--color-primary);
+}
+
+/* Masonry über CSS-Columns */
+.masonry {
+	column-count: 3;
+	column-gap: 1rem;
+}
+.masonry__item {
+	break-inside: avoid;
+	margin: 0 0 1rem;
+	animation: fadeInUp 400ms ease both;
+}
+.masonry__link {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-sm);
+	background: var(--color-surface-2);
+}
+.masonry__link img {
+	width: 100%;
+	height: auto;
+	display: block;
+	transition: transform 500ms ease;
+}
+.masonry__link:hover img { transform: scale(1.06); }
+.masonry__link .card__placeholder { aspect-ratio: 4 / 3; }
+.masonry__caption {
+	position: absolute;
+	inset: auto 0 0 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding: 2rem 1rem 0.9rem;
+	background: linear-gradient(to top, rgba(15, 23, 42, 0.85), transparent);
+	color: #fff;
+	opacity: 0;
+	transform: translateY(8px);
+	transition: opacity var(--transition), transform var(--transition);
+}
+.masonry__link:hover .masonry__caption,
+.masonry__link:focus-visible .masonry__caption {
+	opacity: 1;
+	transform: translateY(0);
+}
+.masonry__title { font-weight: 600; font-size: 0.95rem; }
+.masonry__zoom { font-size: 1.2rem; }
+.gallery-empty { text-align: center; color: var(--color-muted); padding: 2rem; }
+
+/* Lightbox */
+.lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	padding: clamp(1rem, 4vw, 3rem);
+	background: rgba(2, 6, 23, 0.92);
+	backdrop-filter: blur(4px);
+}
+.lightbox.is-open { display: flex; }
+.lightbox__stage {
+	margin: 0;
+	max-width: min(1100px, 92vw);
+	max-height: 88vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.lightbox__img {
+	max-width: 100%;
+	max-height: 80vh;
+	width: auto;
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-lg);
+	object-fit: contain;
+}
+.lightbox__caption { color: #fff; margin-top: 1rem; font-size: 0.95rem; text-align: center; }
+.lightbox__close,
+.lightbox__nav {
+	border: 0;
+	background: rgba(255, 255, 255, 0.12);
+	color: #fff;
+	cursor: pointer;
+	border-radius: 50%;
+	transition: background var(--transition);
+	flex-shrink: 0;
+}
+.lightbox__close:hover,
+.lightbox__nav:hover { background: rgba(255, 255, 255, 0.28); }
+.lightbox__close {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	width: 48px;
+	height: 48px;
+	font-size: 1.8rem;
+	line-height: 1;
+}
+.lightbox__nav {
+	width: 52px;
+	height: 52px;
+	font-size: 2rem;
+	line-height: 1;
+}
+
+/* --- Wissens-Wiki ------------------------------------------- */
+.wiki {
+	display: grid;
+	grid-template-columns: 280px minmax(0, 1fr);
+	gap: clamp(1.5rem, 4vw, 3rem);
+	align-items: start;
+	padding-block: clamp(1.5rem, 4vw, 2.5rem);
+}
+.wiki__toggle {
+	display: none;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.7rem 1.1rem;
+	border: 1px solid var(--color-border);
+	background: var(--color-surface);
+	border-radius: var(--radius-sm);
+	font-weight: 600;
+	cursor: pointer;
+	color: var(--color-ink);
+}
+.wiki__sidebar {
+	position: sticky;
+	top: 90px;
+	max-height: calc(100vh - 110px);
+	overflow-y: auto;
+	padding-right: 0.5rem;
+}
+.wiki__search input[type="search"] {
+	width: 100%;
+	padding: 0.7rem 1rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-pill);
+	background: var(--color-surface);
+	color: var(--color-text);
+	font-family: inherit;
+	font-size: 0.95rem;
+	margin-bottom: 1.5rem;
+}
+.wiki__search input:focus { outline: 2px solid var(--color-primary); border-color: transparent; }
+.wiki__nav-title {
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: 0.72rem;
+	font-weight: 700;
+	color: var(--color-muted);
+	margin-bottom: 0.75rem;
+}
+.wiki__toc { list-style: none; margin: 0; padding: 0; }
+.wiki__toc a {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding: 0.5rem 0.75rem;
+	border-radius: var(--radius-sm);
+	color: var(--color-text);
+	font-weight: 500;
+	font-size: 0.95rem;
+	border-left: 2px solid transparent;
+	transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+.wiki__toc a:hover { background: var(--color-surface-2); color: var(--color-primary); }
+.wiki__toc a.is-active {
+	background: var(--color-surface-2);
+	color: var(--color-primary);
+	border-left-color: var(--color-primary);
+}
+.wiki__count {
+	font-size: 0.72rem;
+	background: var(--color-surface-2);
+	color: var(--color-muted);
+	padding: 0.1rem 0.5rem;
+	border-radius: var(--radius-pill);
+}
+.wiki__toc a.is-active .wiki__count { background: var(--color-primary); color: #fff; }
+
+.wiki__header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--color-border); }
+.wiki__eyebrow {
+	text-transform: uppercase;
+	letter-spacing: 0.2em;
+	font-size: 0.78rem;
+	font-weight: 600;
+	color: var(--color-primary);
+	margin-bottom: 0.5rem;
+}
+.wiki__title { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1rem; }
+.wiki__intro { color: var(--color-muted); font-size: 1.1rem; }
+.wiki__intro > *:last-child { margin-bottom: 0; }
+
+.wiki__section { scroll-margin-top: 90px; margin-bottom: 3rem; }
+.wiki__section-title {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+	padding-bottom: 0.6rem;
+	border-bottom: 2px solid var(--color-primary);
+	margin-bottom: 1.25rem;
+}
+.wiki__section-all { font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+.wiki__section-desc { color: var(--color-muted); margin-top: -0.5rem; margin-bottom: 1.25rem; }
+.wiki__articles {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 0.75rem;
+}
+.wiki__article a {
+	display: block;
+	height: 100%;
+	padding: 1rem 1.15rem;
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+.wiki__article a:hover {
+	border-color: var(--color-primary);
+	box-shadow: var(--shadow);
+	transform: translateY(-2px);
+}
+.wiki__article-title {
+	display: block;
+	font-weight: 600;
+	color: var(--color-ink);
+	margin-bottom: 0.25rem;
+}
+.wiki__article-title::before { content: '📄 '; }
+.wiki__article-excerpt { display: block; font-size: 0.85rem; color: var(--color-muted); }
+
+@keyframes fadeInUp {
+	from { opacity: 0; transform: translateY(12px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive für Seitenvorlagen */
+@media (max-width: 900px) {
+	.masonry { column-count: 2; }
+	.wiki { grid-template-columns: 1fr; }
+	.wiki__toggle { display: inline-flex; margin-bottom: 1rem; }
+	.wiki__sidebar {
+		position: fixed;
+		inset: 0 0 0 auto;
+		width: min(300px, 85vw);
+		max-height: none;
+		background: var(--color-surface);
+		box-shadow: var(--shadow-lg);
+		padding: 5rem 1.5rem 2rem;
+		transform: translateX(100%);
+		transition: transform var(--transition);
+		z-index: 90;
+	}
+	.wiki__sidebar.is-open { transform: translateX(0); }
+}
+
+@media (max-width: 560px) {
+	.masonry { column-count: 1; }
+	.lightbox__nav { width: 42px; height: 42px; font-size: 1.5rem; }
+	.wiki__articles { grid-template-columns: 1fr; }
+}
+
 /* Bewegung reduzieren */
 @media (prefers-reduced-motion: reduce) {
 	*,
