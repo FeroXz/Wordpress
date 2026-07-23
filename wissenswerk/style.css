@@ -1,0 +1,21 @@
+/*
+Theme Name: Wissenswerk
+Theme URI: https://github.com/feroxz/wordpress
+Author: Wissenswerk Team
+Author URI: https://github.com/feroxz
+Description: Ein modernes WordPress-Theme mit drei spezialisierten Bereichen: einer durchsuchbaren Wissenssammlung, einer eleganten Galerie und einem Neuigkeiten-Bereich. Vollständig responsiv, mit Dark-Mode, Block-Editor-Unterstützung und barrierefreier Navigation.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.5
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: wissenswerk
+Tags: custom-post-types, gallery, knowledge-base, news, dark-mode, responsive, block-styles, wide-blocks, translation-ready, custom-menu, featured-images, threaded-comments
+*/
+
+/*
+ * Die vollständigen Styles befinden sich in assets/css/main.css
+ * und werden über functions.php eingebunden. Diese Datei enthält
+ * ausschließlich den erforderlichen Theme-Header.
+ */

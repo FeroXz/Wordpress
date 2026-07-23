@@ -1,0 +1,5 @@
+Platzhalter für screenshot.png
+
+WordPress zeigt in der Theme-Übersicht (Design → Themes) eine Vorschau namens
+screenshot.png (empfohlen: 1200 × 900 px). Ersetze diese Datei durch eine
+echte screenshot.png, um eine Vorschaugrafik anzuzeigen.
