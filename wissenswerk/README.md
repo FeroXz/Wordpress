@@ -47,6 +47,17 @@ anpassbar – ohne Code:
 - **Abschnitte** (Wissenssammlung, Galerie, Neuigkeiten): je Abschnitt
   ein-/ausblenden, eigene Überschrift und Anzahl der angezeigten Beiträge.
 
+**Bildzentriertes Design – alle Bilder austauschbar:**
+- **Titelbild (Hero):** großes Hintergrundbild + einstellbare Verdunkelung
+  für lesbaren Text.
+- **Bereichs-Kacheln:** je Kachel ein eigenes Hintergrundbild.
+- **Showcase-Bildmosaik:** dynamisches Raster aus sechs Bildern mit optionalen
+  Bildunterschriften, ein-/ausblendbar.
+
+Solange nichts hochgeladen wurde, zeigen alle Bildflächen ansprechende
+**Platzhalter** (`assets/images/placeholder-*.svg`). Jedes Bild wird im
+Customizer per Klick auf **„Bild auswählen"** durch ein eigenes Foto ersetzt.
+
 Zusätzlich: Wird unter **Einstellungen → Lesen** eine statische Seite als
 Startseite gesetzt, erscheint deren Block-Inhalt unterhalb der Abschnitte –
 so lässt sich die Landingpage auch mit dem Block-Editor ergänzen.

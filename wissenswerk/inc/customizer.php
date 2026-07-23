@@ -75,13 +75,37 @@ function wissenswerk_customize_register( $wp_customize ) {
 		'sanitize_callback' => 'sanitize_key',
 	) );
 	$wp_customize->add_control( 'wissenswerk_hero_style', array(
-		'label'   => __( 'Hero-Hintergrund', 'wissenswerk' ),
+		'label'   => __( 'Hero-Farbverlauf (hinter dem Bild)', 'wissenswerk' ),
 		'section' => 'wissenswerk_hero',
 		'type'    => 'select',
 		'choices' => array(
 			'dusk'  => __( 'Dämmerung (dunkel)', 'wissenswerk' ),
 			'brand' => __( 'Marke (bunt)', 'wissenswerk' ),
 		),
+	) );
+
+	// Hero-Titelbild (Platzhalter als Standard).
+	$wp_customize->add_setting( 'wissenswerk_hero_image', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+	) );
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'wissenswerk_hero_image', array(
+		'label'       => __( 'Titelbild', 'wissenswerk' ),
+		'description' => __( 'Großes Hintergrundbild im Hero. Ohne Auswahl wird ein Platzhalter genutzt.', 'wissenswerk' ),
+		'section'     => 'wissenswerk_hero',
+	) ) );
+
+	// Verdunkelung über dem Titelbild (für lesbaren Text).
+	$wp_customize->add_setting( 'wissenswerk_hero_overlay', array(
+		'default'           => 60,
+		'sanitize_callback' => 'absint',
+	) );
+	$wp_customize->add_control( 'wissenswerk_hero_overlay', array(
+		'label'       => __( 'Bild-Verdunkelung (%)', 'wissenswerk' ),
+		'description' => __( 'Höherer Wert = dunkleres Bild, besser lesbarer Text.', 'wissenswerk' ),
+		'section'     => 'wissenswerk_hero',
+		'type'        => 'number',
+		'input_attrs' => array( 'min' => 0, 'max' => 90, 'step' => 5 ),
 	) );
 
 	/* ---- Abschnitt: Bereichs-Kacheln ---- */
@@ -116,6 +140,73 @@ function wissenswerk_customize_register( $wp_customize ) {
 		$wp_customize->add_control( $id, array(
 			'label'   => $conf[0],
 			'section' => 'wissenswerk_areas',
+			'type'    => 'text',
+		) );
+	}
+
+	// Hintergrundbilder der drei Kacheln.
+	$area_images = array(
+		'wissenswerk_area_wissen_image'      => __( 'Kachel Wissen – Bild', 'wissenswerk' ),
+		'wissenswerk_area_galerie_image'     => __( 'Kachel Galerie – Bild', 'wissenswerk' ),
+		'wissenswerk_area_neuigkeiten_image' => __( 'Kachel Neuigkeiten – Bild', 'wissenswerk' ),
+	);
+	foreach ( $area_images as $id => $label ) {
+		$wp_customize->add_setting( $id, array(
+			'default'           => '',
+			'sanitize_callback' => 'esc_url_raw',
+		) );
+		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, $id, array(
+			'label'   => $label,
+			'section' => 'wissenswerk_areas',
+		) ) );
+	}
+
+	/* ---- Abschnitt: Showcase-Bildmosaik ---- */
+	$wp_customize->add_section( 'wissenswerk_showcase', array(
+		'title'       => __( 'Showcase-Bildmosaik', 'wissenswerk' ),
+		'description' => __( 'Große Bildergalerie auf der Startseite. Ohne Auswahl werden Platzhalter angezeigt.', 'wissenswerk' ),
+		'panel'       => 'wissenswerk_landing',
+	) );
+
+	$wp_customize->add_setting( 'wissenswerk_showcase_show', array(
+		'default'           => true,
+		'sanitize_callback' => 'wissenswerk_sanitize_checkbox',
+	) );
+	$wp_customize->add_control( 'wissenswerk_showcase_show', array(
+		'label'   => __( 'Mosaik anzeigen', 'wissenswerk' ),
+		'section' => 'wissenswerk_showcase',
+		'type'    => 'checkbox',
+	) );
+
+	$wp_customize->add_setting( 'wissenswerk_showcase_heading', array(
+		'default'           => __( 'Impressionen', 'wissenswerk' ),
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'wissenswerk_showcase_heading', array(
+		'label'   => __( 'Überschrift', 'wissenswerk' ),
+		'section' => 'wissenswerk_showcase',
+		'type'    => 'text',
+	) );
+
+	for ( $i = 1; $i <= 6; $i++ ) {
+		$wp_customize->add_setting( 'wissenswerk_showcase_' . $i, array(
+			'default'           => '',
+			'sanitize_callback' => 'esc_url_raw',
+		) );
+		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'wissenswerk_showcase_' . $i, array(
+			/* translators: %d: Bildnummer. */
+			'label'   => sprintf( __( 'Bild %d', 'wissenswerk' ), $i ),
+			'section' => 'wissenswerk_showcase',
+		) ) );
+
+		$wp_customize->add_setting( 'wissenswerk_showcase_' . $i . '_caption', array(
+			'default'           => '',
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( 'wissenswerk_showcase_' . $i . '_caption', array(
+			/* translators: %d: Bildnummer. */
+			'label'   => sprintf( __( 'Bild %d – Bildunterschrift', 'wissenswerk' ), $i ),
+			'section' => 'wissenswerk_showcase',
 			'type'    => 'text',
 		) );
 	}

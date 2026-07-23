@@ -113,6 +113,21 @@ function wissenswerk_get_recent( $post_type, $count = 3 ) {
 }
 
 /**
+ * Liefert die URL einer Bild-Option (Customizer) oder einen Platzhalter.
+ *
+ * @param string $mod         Name der Theme-Mod.
+ * @param string $placeholder Dateiname im Ordner assets/images/.
+ * @return string Bild-URL.
+ */
+function wissenswerk_image_url( $mod, $placeholder ) {
+	$url = get_theme_mod( $mod, '' );
+	if ( empty( $url ) ) {
+		$url = WISSENSWERK_URI . '/assets/images/' . $placeholder;
+	}
+	return $url;
+}
+
+/**
  * Numerische Beitragsnavigation für Archive.
  */
 function wissenswerk_pagination() {

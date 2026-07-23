@@ -25,12 +25,16 @@ if ( '' === $btn1_url ) {
 if ( '' === $btn2_url ) {
 	$btn2_url = get_post_type_archive_link( 'galerie' );
 }
+
+$hero_image   = wissenswerk_image_url( 'wissenswerk_hero_image', 'placeholder-hero.svg' );
+$hero_overlay = (int) get_theme_mod( 'wissenswerk_hero_overlay', 60 ) / 100;
 ?>
 
 <main id="main" class="site-main">
 
 	<!-- Hero -->
-	<section class="hero hero--<?php echo esc_attr( $hero_style ); ?>">
+	<section class="hero hero--image hero--<?php echo esc_attr( $hero_style ); ?>" style="--hero-image:url('<?php echo esc_url( $hero_image ); ?>');--hero-overlay:<?php echo esc_attr( $hero_overlay ); ?>;">
+		<div class="hero__bg" aria-hidden="true"></div>
 		<div class="hero__orbs" aria-hidden="true"><span></span><span></span><span></span></div>
 		<div class="hero__inner container">
 			<p class="hero__eyebrow"><?php echo esc_html( $hero_eyebrow ? $hero_eyebrow : get_bloginfo( 'name' ) ); ?></p>
@@ -49,24 +53,50 @@ if ( '' === $btn2_url ) {
 		</div>
 	</section>
 
-	<!-- Bereichs-Kacheln -->
+	<!-- Bereichs-Kacheln (bild-gefüllt) -->
 	<?php if ( get_theme_mod( 'wissenswerk_areas_show', true ) ) : ?>
 		<section class="areas container">
 			<?php
 			$cards = array(
-				'wissen'      => array( '📚', 'wissenswerk_area_wissen_title', __( 'Wissenssammlung', 'wissenswerk' ), 'wissenswerk_area_wissen_text', __( 'Fundiertes Wissen, klar strukturiert und durchsuchbar.', 'wissenswerk' ), __( 'Entdecken', 'wissenswerk' ) ),
-				'galerie'     => array( '🖼️', 'wissenswerk_area_galerie_title', __( 'Galerie', 'wissenswerk' ), 'wissenswerk_area_galerie_text', __( 'Eindrücke und Bilder in einer eleganten Ansicht.', 'wissenswerk' ), __( 'Ansehen', 'wissenswerk' ) ),
-				'neuigkeiten' => array( '📣', 'wissenswerk_area_neuigkeiten_title', __( 'Neuigkeiten', 'wissenswerk' ), 'wissenswerk_area_neuigkeiten_text', __( 'Aktuelles und Ankündigungen auf einen Blick.', 'wissenswerk' ), __( 'Lesen', 'wissenswerk' ) ),
+				'wissen'      => array( '📚', 'wissenswerk_area_wissen_title', __( 'Wissenssammlung', 'wissenswerk' ), 'wissenswerk_area_wissen_text', __( 'Fundiertes Wissen, klar strukturiert und durchsuchbar.', 'wissenswerk' ), __( 'Entdecken', 'wissenswerk' ), 'wissenswerk_area_wissen_image', 'placeholder-1.svg' ),
+				'galerie'     => array( '🖼️', 'wissenswerk_area_galerie_title', __( 'Galerie', 'wissenswerk' ), 'wissenswerk_area_galerie_text', __( 'Eindrücke und Bilder in einer eleganten Ansicht.', 'wissenswerk' ), __( 'Ansehen', 'wissenswerk' ), 'wissenswerk_area_galerie_image', 'placeholder-2.svg' ),
+				'neuigkeiten' => array( '📣', 'wissenswerk_area_neuigkeiten_title', __( 'Neuigkeiten', 'wissenswerk' ), 'wissenswerk_area_neuigkeiten_text', __( 'Aktuelles und Ankündigungen auf einen Blick.', 'wissenswerk' ), __( 'Lesen', 'wissenswerk' ), 'wissenswerk_area_neuigkeiten_image', 'placeholder-3.svg' ),
 			);
 			foreach ( $cards as $type => $c ) :
+				$card_image = wissenswerk_image_url( $c[6], $c[7] );
 				?>
-				<a class="area-card area-card--<?php echo esc_attr( $type ); ?> reveal" href="<?php echo esc_url( get_post_type_archive_link( $type ) ); ?>">
+				<a class="area-card area-card--<?php echo esc_attr( $type ); ?> reveal" href="<?php echo esc_url( get_post_type_archive_link( $type ) ); ?>" style="--card-image:url('<?php echo esc_url( $card_image ); ?>');">
 					<span class="area-card__icon" aria-hidden="true"><?php echo esc_html( $c[0] ); ?></span>
 					<h2 class="area-card__title"><?php echo esc_html( get_theme_mod( $c[1], $c[2] ) ); ?></h2>
 					<p class="area-card__text"><?php echo esc_html( get_theme_mod( $c[3], $c[4] ) ); ?></p>
 					<span class="area-card__link"><?php echo esc_html( $c[5] ); ?> &rarr;</span>
 				</a>
 			<?php endforeach; ?>
+		</section>
+	<?php endif; ?>
+
+	<!-- Showcase-Bildmosaik -->
+	<?php if ( get_theme_mod( 'wissenswerk_showcase_show', true ) ) : ?>
+		<section class="home-section home-section--muted">
+			<div class="container">
+				<div class="section-head">
+					<h2 class="section-head__title"><?php echo esc_html( get_theme_mod( 'wissenswerk_showcase_heading', __( 'Impressionen', 'wissenswerk' ) ) ); ?></h2>
+					<a class="section-head__all" href="<?php echo esc_url( get_post_type_archive_link( 'galerie' ) ); ?>"><?php esc_html_e( 'Zur Galerie', 'wissenswerk' ); ?> &rarr;</a>
+				</div>
+				<div class="mosaic-showcase">
+					<?php
+					for ( $i = 1; $i <= 6; $i++ ) :
+						$img     = wissenswerk_image_url( 'wissenswerk_showcase_' . $i, 'placeholder-' . $i . '.svg' );
+						$caption = get_theme_mod( 'wissenswerk_showcase_' . $i . '_caption', '' );
+						?>
+						<figure class="mosaic-showcase__item reveal" style="background-image:url('<?php echo esc_url( $img ); ?>');">
+							<?php if ( $caption ) : ?>
+								<figcaption class="mosaic-showcase__caption"><?php echo esc_html( $caption ); ?></figcaption>
+							<?php endif; ?>
+						</figure>
+					<?php endfor; ?>
+				</div>
+			</div>
 		</section>
 	<?php endif; ?>
 

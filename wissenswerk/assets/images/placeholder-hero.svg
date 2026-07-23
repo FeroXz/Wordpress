@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Titelbild-Platzhalter">
+  <defs>
+    <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3730a3"/>
+      <stop offset="0.55" stop-color="#1e1b4b"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <radialGradient id="hglow" cx="0.8" cy="0.2" r="0.7">
+      <stop offset="0" stop-color="#06b6d4" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#06b6d4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#hg)"/>
+  <rect width="1600" height="900" fill="url(#hglow)"/>
+  <g fill="none" stroke="#ffffff" stroke-width="10" opacity="0.28" stroke-linejoin="round">
+    <rect x="700" y="360" width="200" height="150" rx="18"/>
+  </g>
+  <circle cx="745" cy="405" r="18" fill="#ffffff" opacity="0.28"/>
+  <path d="M710 500 L785 430 L825 465 L865 420 L890 500 Z" fill="#ffffff" opacity="0.28"/>
+  <text x="800" y="600" text-anchor="middle" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="40" font-weight="700" fill="#ffffff" opacity="0.5">Titelbild-Platzhalter</text>
+</svg>
