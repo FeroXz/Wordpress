@@ -1,0 +1,81 @@
+# Wissenswerk – WordPress-Theme
+
+Ein modernes, responsives WordPress-Theme mit drei spezialisierten Bereichen:
+
+- 📚 **Wissenssammlung** – strukturierte, durchsuchbare Wissensartikel (Custom Post Type `wissen`)
+- 🖼️ **Galerie** – Bilder und Eindrücke in eleganter Rasteransicht (Custom Post Type `galerie`)
+- 📣 **Neuigkeiten** – Aktuelles und Ankündigungen im Zeitstrahl-Stil (Custom Post Type `neuigkeiten`)
+
+## Highlights
+
+- **Modernes Design** mit CSS-Variablen, sanften Übergängen, Grid-Layouts und großzügiger Typografie (Inter & Merriweather).
+- **Dark-Mode** – automatisch nach Systemeinstellung, manuell umschaltbar (Auswahl wird gespeichert).
+- **Vollständig responsiv** inkl. Off-Canvas-Mobilmenü.
+- **Block-Editor-Unterstützung** über `theme.json` (Farbpalette, Schriftgrößen, Wide-/Full-Alignments, Editor-Styles).
+- **Barrierefrei**: Skip-Link, sichtbarer Fokus, `prefers-reduced-motion`, ARIA-Attribute.
+- **Eigene Taxonomien** je Bereich plus bereichsübergreifende Schlagworte.
+- **Übersetzungsbereit** (Text-Domain `wissenswerk`), Deutsch als Standardsprache.
+
+## Installation
+
+1. Den Ordner `wissenswerk/` nach `wp-content/themes/` kopieren.
+2. Im Backend unter **Design → Themes** „Wissenswerk“ aktivieren.
+3. Die Permalinks werden bei Aktivierung automatisch neu geschrieben. Falls
+   die Bereichs-URLs nicht sofort greifen, einmal unter **Einstellungen →
+   Permalinks** speichern.
+
+## Nutzung
+
+### Inhalte anlegen
+Nach der Aktivierung erscheinen im Admin-Menü drei neue Einträge:
+**Wissenssammlung**, **Galerie** und **Neuigkeiten**. Beiträge dort anlegen und
+jeweils ein Beitragsbild setzen (fehlt es, wird ein farbiger Platzhalter erzeugt).
+
+### Bereiche ordnen
+- Wissensartikel → **Themengebiete** (`wissen_thema`)
+- Galerie-Einträge → **Alben** (`galerie_album`)
+- Neuigkeiten → **Rubriken** (`neuigkeiten_rubrik`)
+- Alle Bereiche → gemeinsame **Schlagworte** (`wissenswerk_tag`)
+
+### Startseite
+`front-page.php` zeigt automatisch einen Hero-Bereich sowie die neuesten
+Inhalte aus allen drei Bereichen. Hero-Überschrift und -Untertitel lassen sich
+unter **Design → Customizer → Startseite: Hero** anpassen.
+
+### Menü
+Unter **Design → Menüs** ein Menü an der Position „Hauptmenü“ zuweisen. Ohne
+zugewiesenes Menü verlinkt der Header automatisch auf Start und die drei Bereiche.
+
+## Dateistruktur
+
+```
+wissenswerk/
+├── style.css              Theme-Header
+├── theme.json             Block-Editor-Einstellungen
+├── functions.php          Setup, Assets, Widgets, Menüs
+├── header.php / footer.php Grundgerüst
+├── front-page.php         Startseite mit allen drei Bereichen
+├── index.php              Fallback-Template
+├── archive-{wissen,galerie,neuigkeiten}.php
+├── single-{wissen,galerie,neuigkeiten}.php
+├── taxonomy.php           Themengebiete / Alben / Rubriken
+├── single.php / page.php / search.php / 404.php
+├── searchform.php / sidebar.php / comments.php
+├── inc/
+│   ├── post-types.php     Custom Post Types
+│   ├── taxonomies.php     Taxonomien
+│   ├── template-tags.php  Wiederverwendbare Template-Funktionen
+│   └── customizer.php     Customizer-Optionen
+└── assets/
+    ├── css/main.css       Gesamtes Design
+    └── js/main.js         Mobilmenü + Dark-Mode
+```
+
+## Anforderungen
+
+- WordPress 6.0+
+- PHP 7.4+
+
+## Lizenz
+
+GPL v2 oder später.
