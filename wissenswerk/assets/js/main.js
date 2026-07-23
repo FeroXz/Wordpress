@@ -11,6 +11,7 @@
 		initGalleryFilter();
 		initLightbox();
 		initWiki();
+		initReveal();
 	} );
 
 	/**
@@ -253,5 +254,35 @@
 		}, { rootMargin: '-20% 0px -70% 0px' } );
 
 		sections.forEach( function ( section ) { observer.observe( section ); } );
+	}
+
+	/**
+	 * Sanftes Einblenden von Elementen beim Scrollen.
+	 */
+	function initReveal() {
+		var items = document.querySelectorAll( '.reveal' );
+		if ( ! items.length ) {
+			return;
+		}
+
+		var reduced = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+		if ( reduced || ! ( 'IntersectionObserver' in window ) ) {
+			items.forEach( function ( item ) { item.classList.add( 'is-visible' ); } );
+			return;
+		}
+
+		var observer = new IntersectionObserver( function ( entries, obs ) {
+			entries.forEach( function ( entry ) {
+				if ( entry.isIntersecting ) {
+					entry.target.classList.add( 'is-visible' );
+					obs.unobserve( entry.target );
+				}
+			} );
+		}, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 } );
+
+		items.forEach( function ( item, index ) {
+			item.style.transitionDelay = Math.min( index % 6, 5 ) * 60 + 'ms';
+			observer.observe( item );
+		} );
 	}
 } )();

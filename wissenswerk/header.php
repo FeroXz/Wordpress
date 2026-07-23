@@ -16,6 +16,7 @@
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<script>document.documentElement.classList.add('has-js');</script>
 
 <a class="skip-link screen-reader-text" href="#main"><?php esc_html_e( 'Zum Inhalt springen', 'wissenswerk' ); ?></a>
 

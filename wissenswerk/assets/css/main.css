@@ -310,6 +310,18 @@ img {
 	overflow: hidden;
 	isolation: isolate;
 }
+.hero--brand { background: var(--gradient-brand); }
+.hero::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+	background-size: 48px 48px;
+	mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+	-webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+	z-index: -1;
+}
 .hero::after {
 	content: '';
 	position: absolute;
@@ -318,9 +330,30 @@ img {
 		radial-gradient(circle at 10% 90%, rgba(129, 140, 248, 0.35), transparent 50%);
 	z-index: -1;
 }
+
+/* Animierte Farb-Orbs im Hero */
+.hero__orbs { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
+.hero__orbs span {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(60px);
+	opacity: 0.5;
+	animation: float 18s ease-in-out infinite;
+}
+.hero__orbs span:nth-child(1) { width: 320px; height: 320px; background: #06b6d4; top: -80px; left: -60px; }
+.hero__orbs span:nth-child(2) { width: 360px; height: 360px; background: #818cf8; bottom: -120px; right: -80px; animation-delay: -6s; }
+.hero__orbs span:nth-child(3) { width: 240px; height: 240px; background: #a855f7; top: 40%; left: 55%; animation-delay: -12s; }
+
+@keyframes float {
+	0%, 100% { transform: translate(0, 0) scale(1); }
+	33% { transform: translate(40px, -30px) scale(1.1); }
+	66% { transform: translate(-30px, 25px) scale(0.95); }
+}
+
 .hero__inner {
 	padding-block: clamp(4rem, 12vw, 8rem);
 	text-align: center;
+	position: relative;
 }
 .hero__eyebrow {
 	text-transform: uppercase;
@@ -388,6 +421,7 @@ img {
 	padding-bottom: clamp(2rem, 5vw, 4rem);
 }
 .area-card {
+	position: relative;
 	background: var(--color-surface);
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius-lg);
@@ -395,9 +429,24 @@ img {
 	box-shadow: var(--shadow-lg);
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
 	transition: transform var(--transition), box-shadow var(--transition);
 }
-.area-card:hover { transform: translateY(-6px); }
+.area-card::before {
+	content: '';
+	position: absolute;
+	inset: 0 0 auto 0;
+	height: 4px;
+	background: var(--gradient-brand);
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform 350ms ease;
+}
+.area-card--galerie::before { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+.area-card--neuigkeiten::before { background: linear-gradient(135deg, #f59e0b, #f97316); }
+.area-card:hover::before { transform: scaleX(1); }
+.area-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.area-card__link { transition: gap var(--transition); }
 .area-card__icon {
 	font-size: 2.25rem;
 	width: 64px;
@@ -426,8 +475,42 @@ img {
 	margin-bottom: 2rem;
 	flex-wrap: wrap;
 }
-.section-head__title { margin: 0; }
-.section-head__all { font-weight: 600; white-space: nowrap; }
+.section-head__title {
+	margin: 0;
+	position: relative;
+	padding-left: 1rem;
+}
+.section-head__title::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0.15em;
+	bottom: 0.15em;
+	width: 5px;
+	border-radius: var(--radius-pill);
+	background: var(--gradient-brand);
+}
+.section-head__all {
+	font-weight: 600;
+	white-space: nowrap;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	transition: gap var(--transition);
+}
+.section-head__all:hover { gap: 0.6rem; }
+
+/* Scroll-Reveal (nur wenn JavaScript aktiv ist) */
+.has-js .reveal {
+	opacity: 0;
+	transform: translateY(24px);
+	transition: opacity 600ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+	will-change: opacity, transform;
+}
+.has-js .reveal.is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
 
 /* ============================================================
    6. Karten & Grids

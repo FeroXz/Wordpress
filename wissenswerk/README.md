@@ -37,10 +37,19 @@ jeweils ein Beitragsbild setzen (fehlt es, wird ein farbiger Platzhalter erzeugt
 - Neuigkeiten → **Rubriken** (`neuigkeiten_rubrik`)
 - Alle Bereiche → gemeinsame **Schlagworte** (`wissenswerk_tag`)
 
-### Startseite
-`front-page.php` zeigt automatisch einen Hero-Bereich sowie die neuesten
-Inhalte aus allen drei Bereichen. Hero-Überschrift und -Untertitel lassen sich
-unter **Design → Customizer → Startseite: Hero** anpassen.
+### Landingpage bearbeiten
+Die komplette Startseite ist über **Design → Customizer → Landingpage**
+anpassbar – ohne Code:
+
+- **Hero:** Eyebrow, Überschrift, Untertitel, zwei Buttons (Text + Link),
+  Hintergrundstil (Dämmerung/Marke). Überschrift & Untertitel mit Live-Vorschau.
+- **Bereichs-Kacheln:** ein-/ausblenden, Titel und Text je Kachel.
+- **Abschnitte** (Wissenssammlung, Galerie, Neuigkeiten): je Abschnitt
+  ein-/ausblenden, eigene Überschrift und Anzahl der angezeigten Beiträge.
+
+Zusätzlich: Wird unter **Einstellungen → Lesen** eine statische Seite als
+Startseite gesetzt, erscheint deren Block-Inhalt unterhalb der Abschnitte –
+so lässt sich die Landingpage auch mit dem Block-Editor ergänzen.
 
 ### Seitenvorlagen (bearbeitbare Seiten)
 Zwei Vorlagen kombinieren einen frei im Block-Editor bearbeitbaren
@@ -85,7 +94,8 @@ wissenswerk/
 │   └── customizer.php     Customizer-Optionen
 └── assets/
     ├── css/main.css       Gesamtes Design
-    └── js/main.js         Mobilmenü + Dark-Mode
+    ├── js/main.js         Menü, Dark-Mode, Galerie, Lightbox, Wiki, Reveal
+    └── js/customize-preview.js  Live-Vorschau im Customizer
 ```
 
 ## Anforderungen
