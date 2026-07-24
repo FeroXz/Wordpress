@@ -76,6 +76,9 @@
 				echo '<li><a href="' . esc_url( get_post_type_archive_link( 'wissen' ) ) . '">' . esc_html__( 'Wissenssammlung', 'wissenswerk' ) . '</a></li>';
 				echo '<li><a href="' . esc_url( get_post_type_archive_link( 'galerie' ) ) . '">' . esc_html__( 'Galerie', 'wissenswerk' ) . '</a></li>';
 				echo '<li><a href="' . esc_url( get_post_type_archive_link( 'neuigkeiten' ) ) . '">' . esc_html__( 'Neuigkeiten', 'wissenswerk' ) . '</a></li>';
+				if ( post_type_exists( 'rm_animal' ) ) {
+					echo '<li><a href="' . esc_url( get_post_type_archive_link( 'rm_animal' ) ) . '">' . esc_html__( 'Tiere', 'wissenswerk' ) . '</a></li>';
+				}
 				echo '</ul>';
 			}
 			?>

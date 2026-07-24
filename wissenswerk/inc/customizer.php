@@ -256,6 +256,46 @@ function wissenswerk_customize_register( $wp_customize ) {
 		) );
 	}
 
+	/* ---- Abschnitt: Unsere Tiere (Reptilien-Manager-Plugin) ---- */
+	if ( post_type_exists( 'rm_animal' ) ) {
+		$wp_customize->add_section( 'wissenswerk_sec_tiere', array(
+			'title'       => __( 'Abschnitt: Unsere Tiere', 'wissenswerk' ),
+			'description' => __( 'Tiere aus dem Reptilien-Manager-Plugin auf der Startseite.', 'wissenswerk' ),
+			'panel'       => 'wissenswerk_landing',
+		) );
+
+		$wp_customize->add_setting( 'wissenswerk_sec_tiere_show', array(
+			'default'           => true,
+			'sanitize_callback' => 'wissenswerk_sanitize_checkbox',
+		) );
+		$wp_customize->add_control( 'wissenswerk_sec_tiere_show', array(
+			'label'   => __( 'Abschnitt anzeigen', 'wissenswerk' ),
+			'section' => 'wissenswerk_sec_tiere',
+			'type'    => 'checkbox',
+		) );
+
+		$wp_customize->add_setting( 'wissenswerk_sec_tiere_heading', array(
+			'default'           => __( 'Unsere Tiere', 'wissenswerk' ),
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( 'wissenswerk_sec_tiere_heading', array(
+			'label'   => __( 'Überschrift', 'wissenswerk' ),
+			'section' => 'wissenswerk_sec_tiere',
+			'type'    => 'text',
+		) );
+
+		$wp_customize->add_setting( 'wissenswerk_sec_tiere_count', array(
+			'default'           => 3,
+			'sanitize_callback' => 'absint',
+		) );
+		$wp_customize->add_control( 'wissenswerk_sec_tiere_count', array(
+			'label'       => __( 'Anzahl der Tiere', 'wissenswerk' ),
+			'section'     => 'wissenswerk_sec_tiere',
+			'type'        => 'number',
+			'input_attrs' => array( 'min' => 1, 'max' => 12, 'step' => 1 ),
+		) );
+	}
+
 	/* =========================================================
 	   Footer-Text (unter Titel & Tagline)
 	   ========================================================= */

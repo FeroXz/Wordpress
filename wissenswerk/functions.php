@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Direktzugriff verhindern.
 }
 
-define( 'WISSENSWERK_VERSION', '1.2.0' );
+define( 'WISSENSWERK_VERSION', '1.3.0' );
 define( 'WISSENSWERK_DIR', get_template_directory() );
 define( 'WISSENSWERK_URI', get_template_directory_uri() );
 

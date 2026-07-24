@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Cover (großes Titelbild)
- * Template Post Type: post, wissen, neuigkeiten, galerie
+ * Template Post Type: post, wissen, neuigkeiten, galerie, rm_animal
  *
  * Immersive Einzelansicht: Das Beitragsbild füllt den Kopfbereich als
  * großflächiges Cover mit Titel-Overlay, darunter folgt schmaler, gut
@@ -25,6 +25,7 @@ while ( have_posts() ) :
 		'galerie'     => 'galerie_album',
 		'neuigkeiten' => 'neuigkeiten_rubrik',
 		'post'        => 'category',
+		'rm_animal'   => 'rm_species',
 	);
 	$taxonomy = isset( $tax_map[ get_post_type() ] ) ? $tax_map[ get_post_type() ] : '';
 	?>

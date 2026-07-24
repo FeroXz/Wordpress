@@ -131,6 +131,24 @@ wissenswerk/
     └── js/customize-preview.js  Live-Vorschau im Customizer
 ```
 
+## Reptilien-Manager-Integration
+
+Das Theme ist auf das Plugin [Reptilien Manager](https://github.com/FeroXz/wpplugin)
+abgestimmt (das Plugin übernimmt seinerseits automatisch die
+Theme-Farbvariablen inklusive Dark-Mode):
+
+- **`archive-rm_animal.php`** – Tierübersicht (`/reptilien`) im Theme-Design
+  mit Arten-Filter und Karten inkl. Geschlechts-, Alters- und Morph-Badges.
+- **`single-rm_animal.php`** – Tierprofil mit Art-Chips, Badges,
+  Vor-/Zurück-Navigation und „Weitere Tiere dieser Art".
+- **Startseite:** optionaler Abschnitt „Unsere Tiere"
+  (Customizer → Landingpage → Abschnitt: Unsere Tiere).
+- Die Beitragsvorlage **Cover** steht auch für Tiere zur Verfügung;
+  das Fallback-Menü verlinkt automatisch auf „Tiere".
+
+Alle Integrationen sind abgesichert: Ohne aktives Plugin erscheinen weder
+Abschnitt, Menüpunkt noch Customizer-Optionen.
+
 ## Anforderungen
 
 - WordPress 6.0+

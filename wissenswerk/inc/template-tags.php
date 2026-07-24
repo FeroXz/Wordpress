@@ -128,6 +128,80 @@ function wissenswerk_image_url( $mod, $placeholder ) {
 }
 
 /**
+ * Gibt Geschlechts-, Alters- und Morph-Badges für ein Tier des
+ * Reptilien-Manager-Plugins aus. Ohne aktives Plugin bleiben nur die
+ * direkt aus den Metadaten lesbaren Angaben (Geschlecht) übrig.
+ *
+ * @param int $post_id Beitrags-ID (Standard: aktueller Beitrag).
+ */
+function wissenswerk_animal_badges( $post_id = 0 ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	if ( 'rm_animal' !== get_post_type( $post_id ) ) {
+		return;
+	}
+
+	$badges = array();
+
+	$sex = get_post_meta( $post_id, '_rm_sex', true );
+	if ( 'male' === $sex ) {
+		$badges[] = '<span class="animal-badge animal-badge--male">&#9794; ' . esc_html__( 'Männlich', 'wissenswerk' ) . '</span>';
+	} elseif ( 'female' === $sex ) {
+		$badges[] = '<span class="animal-badge animal-badge--female">&#9792; ' . esc_html__( 'Weiblich', 'wissenswerk' ) . '</span>';
+	}
+
+	if ( class_exists( 'RM_Animal_Meta' ) ) {
+		$birth = get_post_meta( $post_id, '_rm_birth', true );
+		if ( $birth ) {
+			$age = RM_Animal_Meta::age_label( $birth );
+			if ( $age ) {
+				$badges[] = '<span class="animal-badge">' . esc_html( $age ) . '</span>';
+			}
+		}
+	}
+
+	if ( class_exists( 'RM_Genetics' ) ) {
+		$morph = RM_Genetics::animal_morph_label( $post_id );
+		if ( $morph ) {
+			$badges[] = '<span class="animal-badge animal-badge--morph">' . esc_html( $morph ) . '</span>';
+		}
+	}
+
+	if ( $badges ) {
+		echo '<div class="animal-badges">' . implode( '', $badges ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput -- Bereits oben escaped.
+	}
+}
+
+/**
+ * Gibt eine Tier-Karte (Reptilien-Manager) im Theme-Design aus.
+ */
+function wissenswerk_render_animal_card() {
+	$species = get_the_terms( get_the_ID(), 'rm_species' );
+	$badge   = ( ! empty( $species ) && ! is_wp_error( $species ) ) ? $species[0]->name : '';
+	?>
+	<article <?php post_class( 'card animal-card' ); ?>>
+		<a class="card__media" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
+			<?php
+			if ( has_post_thumbnail() ) {
+				the_post_thumbnail( 'wissenswerk-card', array( 'loading' => 'lazy', 'alt' => '' ) );
+			} else {
+				wissenswerk_placeholder_thumb( get_the_title() );
+			}
+			if ( $badge ) {
+				echo '<span class="card__badge">' . esc_html( $badge ) . '</span>';
+			}
+			?>
+		</a>
+		<div class="card__body">
+			<h3 class="card__title">
+				<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+			</h3>
+			<?php wissenswerk_animal_badges(); ?>
+		</div>
+	</article>
+	<?php
+}
+
+/**
  * Numerische Beitragsnavigation für Archive.
  */
 function wissenswerk_pagination() {

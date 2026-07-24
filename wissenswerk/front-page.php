@@ -129,6 +129,35 @@ $hero_overlay = (int) get_theme_mod( 'wissenswerk_hero_overlay', 60 ) / 100;
 	endif;
 	?>
 
+	<!-- Unsere Tiere (Reptilien-Manager-Plugin, nur wenn aktiv) -->
+	<?php
+	if ( post_type_exists( 'rm_animal' ) && get_theme_mod( 'wissenswerk_sec_tiere_show', true ) ) :
+		$count = (int) get_theme_mod( 'wissenswerk_sec_tiere_count', 3 );
+		$tiere = wissenswerk_get_recent( 'rm_animal', $count > 0 ? $count : 3 );
+		if ( $tiere->have_posts() ) :
+			?>
+			<section class="home-section container">
+				<div class="section-head">
+					<h2 class="section-head__title"><?php echo esc_html( get_theme_mod( 'wissenswerk_sec_tiere_heading', __( 'Unsere Tiere', 'wissenswerk' ) ) ); ?></h2>
+					<a class="section-head__all" href="<?php echo esc_url( get_post_type_archive_link( 'rm_animal' ) ); ?>"><?php esc_html_e( 'Alle Tiere', 'wissenswerk' ); ?> &rarr;</a>
+				</div>
+				<div class="card-grid">
+					<?php
+					while ( $tiere->have_posts() ) :
+						$tiere->the_post();
+						echo '<div class="reveal">';
+						wissenswerk_render_animal_card();
+						echo '</div>';
+					endwhile;
+					wp_reset_postdata();
+					?>
+				</div>
+			</section>
+			<?php
+		endif;
+	endif;
+	?>
+
 	<!-- Galerie -->
 	<?php
 	if ( get_theme_mod( 'wissenswerk_sec_galerie_show', true ) ) :
