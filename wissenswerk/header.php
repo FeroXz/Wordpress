@@ -88,6 +88,8 @@
 			<span class="theme-toggle__icon" aria-hidden="true">◐</span>
 		</button>
 	</div>
+
+	<button class="nav-overlay" tabindex="-1" aria-hidden="true"></button>
 </header>
 
 <div id="content" class="site-content">

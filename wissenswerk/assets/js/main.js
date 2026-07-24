@@ -20,24 +20,71 @@
 	function initMobileNav() {
 		var toggle = document.querySelector( '.nav-toggle' );
 		var nav = document.querySelector( '.main-navigation' );
+		var overlay = document.querySelector( '.nav-overlay' );
 
 		if ( ! toggle || ! nav ) {
 			return;
 		}
 
+		function isOpen() {
+			return toggle.getAttribute( 'aria-expanded' ) === 'true';
+		}
+
+		function open() {
+			toggle.setAttribute( 'aria-expanded', 'true' );
+			nav.classList.add( 'is-open' );
+			document.body.classList.add( 'nav-open' );
+			if ( overlay ) {
+				overlay.removeAttribute( 'aria-hidden' );
+			}
+		}
+
+		function close( refocus ) {
+			toggle.setAttribute( 'aria-expanded', 'false' );
+			nav.classList.remove( 'is-open' );
+			document.body.classList.remove( 'nav-open' );
+			if ( overlay ) {
+				overlay.setAttribute( 'aria-hidden', 'true' );
+			}
+			if ( refocus ) {
+				toggle.focus();
+			}
+		}
+
 		toggle.addEventListener( 'click', function () {
-			var isOpen = toggle.getAttribute( 'aria-expanded' ) === 'true';
-			toggle.setAttribute( 'aria-expanded', String( ! isOpen ) );
-			nav.classList.toggle( 'is-open' );
-			document.body.classList.toggle( 'nav-open' );
+			if ( isOpen() ) {
+				close( false );
+			} else {
+				open();
+			}
 		} );
 
 		// Menü schließen, wenn ein Link angeklickt wird.
 		nav.addEventListener( 'click', function ( event ) {
-			if ( event.target.tagName === 'A' ) {
-				toggle.setAttribute( 'aria-expanded', 'false' );
-				nav.classList.remove( 'is-open' );
-				document.body.classList.remove( 'nav-open' );
+			if ( event.target.closest( 'a' ) ) {
+				close( false );
+			}
+		} );
+
+		// Tippen auf die Verdunkelung schließt das Menü.
+		if ( overlay ) {
+			overlay.addEventListener( 'click', function () {
+				close( false );
+			} );
+		}
+
+		// Escape schließt das Menü und gibt den Fokus zurück.
+		document.addEventListener( 'keydown', function ( event ) {
+			if ( event.key === 'Escape' && isOpen() ) {
+				close( true );
+			}
+		} );
+
+		// Beim Wechsel auf Desktop-Breite zurücksetzen, damit der Body
+		// nicht gesperrt bleibt.
+		window.addEventListener( 'resize', function () {
+			if ( isOpen() && window.innerWidth > 782 ) {
+				close( false );
 			}
 		} );
 	}

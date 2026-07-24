@@ -201,9 +201,11 @@ img {
 .admin-bar .site-header {
 	top: var(--wp-admin--admin-bar--height, 32px);
 }
+/* Unter 783px ist die WP-Admin-Leiste nicht fixiert – sie scrollt mit,
+   der Header darf also direkt oben andocken. */
 @media (max-width: 782px) {
 	.admin-bar .site-header {
-		top: 46px;
+		top: 0;
 	}
 }
 
@@ -211,10 +213,28 @@ img {
 	position: sticky;
 	top: 0;
 	z-index: 100;
-	background: color-mix(in srgb, var(--color-surface) 85%, transparent);
-	backdrop-filter: saturate(180%) blur(12px);
-	-webkit-backdrop-filter: saturate(180%) blur(12px);
+	background: var(--color-surface);
 	border-bottom: 1px solid var(--color-border);
+}
+
+/*
+ * Der Glas-Effekt liegt bewusst auf einem Pseudo-Element und NICHT auf
+ * .site-header selbst: Ein Element mit backdrop-filter wird zum
+ * Bezugsrahmen für position:fixed-Nachfahren. Läge der Filter auf dem
+ * Header, würde das mobile Menü im Header eingesperrt statt den
+ * Bildschirm zu füllen.
+ */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+	.site-header { background: transparent; }
+	.site-header::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: color-mix(in srgb, var(--color-surface) 85%, transparent);
+		backdrop-filter: saturate(180%) blur(12px);
+		-webkit-backdrop-filter: saturate(180%) blur(12px);
+	}
 }
 
 .site-header__inner {
@@ -1199,24 +1219,78 @@ img {
 
 @media (max-width: 782px) {
 	.nav-toggle { display: block; }
+
+	/* Umschalter bleibt über Overlay und Panel bedienbar (zum Schließen) */
+	.nav-toggle,
+	.theme-toggle {
+		position: relative;
+		z-index: 101;
+	}
+
+	/* Verdunkelung hinter dem Menü – Tippen schließt */
+	.nav-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 98;
+		background: rgba(2, 6, 23, 0.55);
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity var(--transition), visibility var(--transition);
+		border: 0;
+		padding: 0;
+		cursor: pointer;
+	}
+	body.nav-open .nav-overlay {
+		opacity: 1;
+		visibility: visible;
+	}
+
 	.main-navigation {
 		position: fixed;
-		inset: 0 0 0 auto;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 99;
 		width: min(320px, 85vw);
+		max-height: 100vh;
+		max-height: 100dvh;
 		background: var(--color-surface);
 		box-shadow: var(--shadow-lg);
-		padding: 5rem 1.5rem 2rem;
+		border-left: 1px solid var(--color-border);
+		padding: 5.5rem 1.25rem 2rem;
 		transform: translateX(100%);
 		transition: transform var(--transition);
 		overflow-y: auto;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
 	}
 	.main-navigation.is-open { transform: translateX(0); }
+
 	.nav-menu { flex-direction: column; align-items: stretch; gap: 0.25rem; }
-	.nav-menu a { padding: 0.85rem 1rem; }
+	.nav-menu a {
+		padding: 0.9rem 1rem;
+		border-radius: var(--radius-sm);
+		font-size: 1.05rem;
+	}
 	.nav-menu .sub-menu { position: static; display: block; box-shadow: none; border: 0; padding-left: 1rem; }
+
+	/* Hamburger wird beim Öffnen zum X */
+	.nav-toggle[aria-expanded="true"] .nav-toggle__bar { background: transparent; }
+	.nav-toggle[aria-expanded="true"] .nav-toggle__bar::before {
+		transform: translate(-50%, -50%) rotate(45deg);
+	}
+	.nav-toggle[aria-expanded="true"] .nav-toggle__bar::after {
+		transform: translate(-50%, -50%) rotate(-45deg);
+	}
+
 	body.nav-open { overflow: hidden; }
 	.entry-nav { grid-template-columns: 1fr; }
 	.footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+
+/* Ab Tablet-Breite gibt es kein Overlay */
+@media (min-width: 783px) {
+	.nav-overlay { display: none; }
 }
 
 @media (max-width: 560px) {
