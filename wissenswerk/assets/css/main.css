@@ -74,6 +74,22 @@
 
 html {
 	scroll-behavior: smooth;
+	color-scheme: light;
+}
+:root[data-theme="dark"] {
+	color-scheme: dark;
+}
+
+/*
+ * Wichtig: WordPress erzeugt aus theme.json globale Styles (u. a. für
+ * body und Links), die nach diesem Stylesheet geladen werden. Die
+ * doppelte Selektor-Spezifität stellt sicher, dass die Theme-Farben –
+ * insbesondere im Dark-Mode – immer gewinnen. Sonst entsteht helle
+ * Schrift auf hellem Grund.
+ */
+html body {
+	background: var(--color-surface);
+	color: var(--color-text);
 }
 
 body {
@@ -181,6 +197,16 @@ img {
 /* ============================================================
    4. Header & Navigation
    ============================================================ */
+/* Eingeloggt: Sticky-Header unter der WP-Admin-Leiste positionieren */
+.admin-bar .site-header {
+	top: var(--wp-admin--admin-bar--height, 32px);
+}
+@media (max-width: 782px) {
+	.admin-bar .site-header {
+		top: 46px;
+	}
+}
+
 .site-header {
 	position: sticky;
 	top: 0;
@@ -647,7 +673,7 @@ img {
 	position: absolute;
 	top: 0.85rem;
 	left: 0.85rem;
-	background: color-mix(in srgb, var(--color-ink) 80%, transparent);
+	background: rgba(15, 23, 42, 0.8);
 	color: #fff;
 	font-size: 0.72rem;
 	font-weight: 600;
@@ -870,8 +896,60 @@ img {
 	line-height: 1.8;
 }
 .entry-content > * + * { margin-top: 1.4rem; }
-.entry-content h2 { margin-top: 2.5rem; }
+.entry-content h2 {
+	margin-top: 2.5rem;
+	padding-bottom: 0.45rem;
+	border-bottom: 1px solid var(--color-border);
+	position: relative;
+}
+.entry-content h2::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: -1px;
+	width: 64px;
+	height: 3px;
+	border-radius: var(--radius-pill);
+	background: var(--gradient-brand);
+}
 .entry-content h3 { margin-top: 2rem; }
+
+/* Tabellen: klar strukturiert und in beiden Modi gut lesbar */
+.entry-content table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	overflow: hidden;
+	font-size: 0.97rem;
+	line-height: 1.5;
+}
+.entry-content th,
+.entry-content td {
+	padding: 0.8rem 1.1rem;
+	text-align: left;
+	border-bottom: 1px solid var(--color-border);
+	vertical-align: top;
+}
+.entry-content thead th {
+	background: var(--color-surface-alt);
+	color: var(--color-ink);
+	font-weight: 700;
+}
+.entry-content tbody th {
+	background: var(--color-surface-alt);
+	color: var(--color-ink);
+	font-weight: 600;
+	width: 34%;
+}
+.entry-content tbody tr:nth-child(even) td {
+	background: color-mix(in srgb, var(--color-surface-alt) 55%, transparent);
+}
+.entry-content tr:last-child th,
+.entry-content tr:last-child td { border-bottom: 0; }
+.entry-content .wp-block-table { overflow-x: auto; }
+.entry-content .wp-block-table table { min-width: 420px; }
 .entry-content img,
 .entry-content figure { border-radius: var(--radius); }
 .entry-content a { text-decoration: underline; text-underline-offset: 3px; }
@@ -886,8 +964,8 @@ img {
 	color: var(--color-ink);
 }
 .entry-content pre {
-	background: var(--color-ink);
-	color: #f8fafc;
+	background: #0b1526;
+	color: #e2e8f0;
 	padding: 1.25rem;
 	border-radius: var(--radius);
 	overflow-x: auto;
@@ -1473,6 +1551,148 @@ img {
 	.masonry { column-count: 1; }
 	.lightbox__nav { width: 42px; height: 42px; font-size: 1.5rem; }
 	.wiki__articles { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   13. Beitrags- & Seitenvorlagen (Cover, Steckbrief, Volle
+       Breite, Leere Leinwand)
+   ============================================================ */
+.site-main--flush { padding-top: 0; }
+
+/* --- Cover (großes Titelbild) ------------------------------- */
+.cover-hero {
+	position: relative;
+	min-height: clamp(420px, 70vh, 720px);
+	display: flex;
+	align-items: flex-end;
+	background-size: cover;
+	background-position: center;
+	isolation: isolate;
+	margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+.cover-hero::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: linear-gradient(to top, rgba(2, 6, 23, 0.88) 0%, rgba(2, 6, 23, 0.38) 55%, rgba(2, 6, 23, 0.22) 100%);
+}
+.cover-hero__inner {
+	color: #fff;
+	padding-block: clamp(2rem, 5vw, 3.5rem);
+}
+.cover-hero__title {
+	color: #fff;
+	font-size: clamp(2.2rem, 6vw, 3.8rem);
+	margin: 0.75rem 0;
+	text-wrap: balance;
+}
+.cover-hero__meta {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	flex-wrap: wrap;
+	color: rgba(255, 255, 255, 0.88);
+	font-size: 0.92rem;
+}
+.cover-hero__meta .entry-meta { color: rgba(255, 255, 255, 0.88); }
+.cover-hero .chip-list { margin: 0; }
+.cover-hero .chip {
+	background: rgba(255, 255, 255, 0.16);
+	color: #fff;
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+}
+.cover-hero .chip:hover { background: rgba(255, 255, 255, 0.3); }
+
+/* --- Steckbrief (Profil) ------------------------------------ */
+.steckbrief {
+	display: grid;
+	grid-template-columns: 330px minmax(0, 1fr);
+	gap: clamp(1.75rem, 4vw, 3.5rem);
+	align-items: start;
+}
+.steckbrief__aside {
+	position: sticky;
+	top: 100px;
+}
+.steckbrief__photo {
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	box-shadow: var(--shadow-lg);
+	background: var(--color-surface-2);
+	aspect-ratio: 4 / 5;
+}
+.steckbrief__photo img,
+.steckbrief__photo .card__placeholder {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.steckbrief__facts {
+	margin: 1.25rem 0 0;
+	background: var(--color-surface-alt);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+	padding: 0.5rem 1.25rem;
+}
+.steckbrief__fact {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.7rem 0;
+	border-bottom: 1px solid var(--color-border);
+}
+.steckbrief__fact:last-child { border-bottom: 0; }
+.steckbrief__fact dt {
+	font-size: 0.82rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--color-muted);
+}
+.steckbrief__fact dd {
+	margin: 0;
+	font-weight: 600;
+	color: var(--color-ink);
+	text-align: right;
+}
+.steckbrief__title {
+	font-size: clamp(2rem, 5vw, 2.75rem);
+	margin-bottom: 1.5rem;
+	padding-bottom: 0.75rem;
+	border-bottom: 2px solid var(--color-primary);
+}
+
+/* --- Volle Breite / Leere Leinwand -------------------------- */
+.entry-content--wide .alignwide { margin-inline: auto; max-width: var(--container); }
+.entry-content--wide .alignfull {
+	width: 100vw;
+	max-width: 100vw;
+	margin-left: calc(50% - 50vw);
+}
+
+.canvas-content > * {
+	max-width: var(--container-narrow);
+	margin-left: auto;
+	margin-right: auto;
+	padding-inline: clamp(1rem, 4vw, 2rem);
+}
+.canvas-content > * + * { margin-top: 1.4rem; }
+.canvas-content > .alignwide {
+	max-width: var(--container);
+	padding-inline: clamp(1rem, 4vw, 2rem);
+}
+.canvas-content > .alignfull {
+	max-width: none;
+	padding-inline: 0;
+	margin-top: 0;
+}
+
+@media (max-width: 900px) {
+	.steckbrief { grid-template-columns: 1fr; }
+	.steckbrief__aside { position: static; max-width: 480px; }
+	.cover-hero { min-height: clamp(360px, 55vh, 520px); }
 }
 
 /* Bewegung reduzieren */

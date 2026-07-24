@@ -44,23 +44,12 @@
 
 	/**
 	 * Hell-/Dunkelmodus umschalten und Auswahl speichern.
+	 * (Die Erst-Initialisierung passiert früh im <head>, siehe header.php.)
 	 */
 	function initThemeToggle() {
 		var toggle = document.querySelector( '.theme-toggle' );
 		var root = document.documentElement;
 		var storageKey = 'wissenswerk-theme';
-
-		// Gespeicherte oder vom System bevorzugte Einstellung anwenden.
-		var stored = null;
-		try {
-			stored = window.localStorage.getItem( storageKey );
-		} catch ( e ) {}
-
-		if ( stored ) {
-			root.setAttribute( 'data-theme', stored );
-		} else if ( window.matchMedia && window.matchMedia( '(prefers-color-scheme: dark)' ).matches ) {
-			root.setAttribute( 'data-theme', 'dark' );
-		}
 
 		if ( ! toggle ) {
 			return;

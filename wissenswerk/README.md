@@ -77,6 +77,24 @@ eingeben → rechts unter **Seiteneigenschaften → Vorlage** „Galerie-Seite" 
 „Wissens-Wiki" wählen → veröffentlichen. Die Seite kann anschließend als
 Menüpunkt oder als statische Startseite verwendet werden.
 
+### Weitere Vorlagen
+
+**Für Beiträge** (im Editor rechts unter **Beitrag → Vorlage** wählbar,
+verfügbar für Beiträge, Wissensartikel, Galerie und Neuigkeiten):
+
+- **Cover (großes Titelbild)**: Beitragsbild als bildschirmfüllendes Cover
+  mit Titel-Overlay, darunter schmaler Lesetext.
+- **Steckbrief (Profil)**: Foto-Karte mit Fakten-Box (Datum, Autor,
+  Lesezeit) links, Inhalt rechts – ideal für Tier-, Personen- oder
+  Produktprofile.
+
+**Für Seiten:**
+
+- **Volle Breite**: Inhalt nutzt die gesamte Container-Breite; „Weite
+  Breite"/„Volle Breite"-Blöcke brechen zusätzlich aus.
+- **Leere Leinwand (ohne Titel)**: Nur der Block-Inhalt, ohne Titel –
+  zum freien Gestalten eigener Landingpages im Editor.
+
 ### Menü
 Unter **Design → Menüs** ein Menü an der Position „Hauptmenü“ zuweisen. Ohne
 zugewiesenes Menü verlinkt der Header automatisch auf Start und die drei Bereiche.
@@ -92,6 +110,10 @@ wissenswerk/
 ├── front-page.php         Startseite mit allen drei Bereichen
 ├── page-galerie.php       Vorlage: Galerie-Seite (Filter + Lightbox)
 ├── page-wissen-wiki.php   Vorlage: Wissens-Wiki (Sidebar + Suche)
+├── page-fullwidth.php     Vorlage: Volle Breite
+├── page-canvas.php        Vorlage: Leere Leinwand (ohne Titel)
+├── single-cover.php       Beitragsvorlage: Cover (großes Titelbild)
+├── single-steckbrief.php  Beitragsvorlage: Steckbrief (Profil)
 ├── index.php              Fallback-Template
 ├── archive-{wissen,galerie,neuigkeiten}.php
 ├── single-{wissen,galerie,neuigkeiten}.php

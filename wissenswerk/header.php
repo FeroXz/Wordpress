@@ -11,12 +11,27 @@
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
+	<script>
+	/* Früh ausführen: Dark-Mode vor dem ersten Rendern setzen (kein Aufblitzen). */
+	( function () {
+		var root = document.documentElement;
+		root.classList.add( 'has-js' );
+		try {
+			var theme = window.localStorage.getItem( 'wissenswerk-theme' );
+			if ( ! theme && window.matchMedia && window.matchMedia( '(prefers-color-scheme: dark)' ).matches ) {
+				theme = 'dark';
+			}
+			if ( theme ) {
+				root.setAttribute( 'data-theme', theme );
+			}
+		} catch ( e ) {}
+	} )();
+	</script>
 	<?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
-<script>document.documentElement.classList.add('has-js');</script>
 
 <a class="skip-link screen-reader-text" href="#main"><?php esc_html_e( 'Zum Inhalt springen', 'wissenswerk' ); ?></a>
 
